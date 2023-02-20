@@ -1,10 +1,11 @@
-import Harder from "../components/Harder"
+
+import nav from "../components/nav"
 
 
 const About = () => {
     return `   <div>
     
-    ${Harder()}
+ ${nav()}
     about</div>`
 
 

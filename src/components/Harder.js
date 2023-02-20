@@ -1,6 +1,15 @@
+
+import axios from "axios";
+import { useEffect, useState } from "../../lib";
 import nav from "./nav";
 
 const Harder = () => {
+    const [user, setuesr] = useState([]);
+    useEffect(() => {
+        axios.get("http://localhost:3000/user").then(({ data }) => setuesr(data));
+
+    }, []);
+
     return `   <div> <div class="max-w-7xl mx-auto px-5 mt-9">
         <div class="flex justify-end">
             <button id="button" class="md:hidden">
@@ -13,24 +22,24 @@ const Harder = () => {
         </div>
    <div>  ${nav()}</div>
      
-        <div id="user" class=" grid md:grid-cols-2 md:gap-8 justify-between my-7 ">
+       ${user.map((user) => {
+        return ` <div id="user" class=" grid md:grid-cols-2 md:gap-8 justify-between my-7 ">
             <div class=" space-y-4 order-2 md:order-1">
                 <h2 class="font-bold text-3xl">
-                    Hi, I am Luong,<br>Creative Technologist
+                    ${user.name}
                 </h2>
                 <p class="text[18px] ">
-                 Hiện tại, mình đang là sinh viên kì 5 tại trường FPT Polytechnic.
-                 Mình bắt đầu học lập trình từ tháng 10 năm ngoái và phần lớn thời gian trong ngày mình đều ngồi học code. Ngoài việc học tập trên trường thì mình thường xuyên học thêm trên F8 Fullstack và trên các kênh Youtube như evondev, easy frontend, ...
-                 Mình thực sự thích code và thử thách bản thân học được nhiều cái mới vào mỗi ngày mới. Mục tiêu hiện tại của mình là trở thành một lập trình viên Frontend.
+                   ${user.description}
                 </p>
                 
-                <span class="bg-[#FF6464] p-4 rounded-full  inline-block"><a href="">Download Resume</a></span>
+                <span class="bg-[#FF6464] p-4 rounded-full  inline-block"><a href="https://drive.google.com/file/d/1xfBY_Tmlvh7nRRRe4zcqK8h1gD3rHHlj/view" target="_blank">Download Resume</a></span>
             </div>
             <div class="justify-end order-1 md:order-2  ">
-                <img src="https://res.cloudinary.com/dndyxqosg/image/upload/v1654235294/280506188_1138943049998807_5392473630503021645_n_rtgk2f.jpg"
-                    alt="" class="rounded-full w-[243px] h-[243px] md:ml-auto mx-auto md:mr-0">
+                <img src="${user.image}"
+                    alt="" class="rounded-full w-[300px] h-[300px] md:ml-auto mx-auto md:mr-0">
             </div>
-        </div>
+        </div>`
+    })}
     </div>`;
 }
 

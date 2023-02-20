@@ -5,8 +5,8 @@ import nav from "../components/nav"
 const blog = () => {
     const [blogs, setblog] = useState([]);
     useEffect(() => {
-        fetch("  http://localhost:3000/blog").then(res => res.json())
-            .then(blogs => setblog(blogs))
+        fetch("http://localhost:3000/blogs").then(res => res.json())
+            .then(data => setblog(data))
     }, [])
     return `    <!-- CONTAINER -->
     <div class="">
@@ -28,7 +28,7 @@ const blog = () => {
         <!----------------------------------------------------------------- content -->
         <div class=" ">
             <!-- Title -->
-            <section class=" text-center bg-[#e6dace]">
+            <section class=" text-center bg-slate-300">
                 <h1 class=" font-black text-[32px] pt-20 pb-8">Blog</h1>
                 <p class="pb-8">What i offer</p>
             </section>
@@ -36,9 +36,10 @@ const blog = () => {
             <section class="w-[850px] mx-auto mb-[80px] mt-20">
                 <div class="rows grid grid-cols-3 gap-6">
                   ${blogs.map((blog) => {
-        return `  <div class="col bg-slate-50 shadow   h-[300px] px-6">
-                            <h1 class="font-bold text-[25px]"> ${blog.title} <br></h1> <a class="text-blue-500 font-medium"
-                            href="${blog.url}">ViewMore </a>
+        return `  <div class="col bg-slate-50 shadow  space-y-4  px-6">
+                            <div><h1 class="font-bold text-[23px]"> ${blog.title} <br></h1> <a class="text-blue-500 font-medium"
+                            href="${blog.url}" target="_blank">ViewMore </a></div>
+                            <div ><img src="${blog.image}" class="h-[200px] w-[100%]" alt="" ></div>
                     </div>`
     }).join("")}
                    

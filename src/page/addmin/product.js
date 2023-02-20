@@ -1,16 +1,28 @@
 import { useEffect, useState } from "../../../lib"
-
+import axios from "axios";
 const adminproductPage = () => {
 
     const [project, setproject] = useState([]);
     useEffect(() => {
-        fetch(" http://localhost:3000/project")
-            .then(res => res.json())
-            .then(project => setproject(project))
 
+        axios.get("http://localhost:3000/project").then(({ data }) => setproject(data))
     }, [])
+    useEffect(() => {
+        const btns = document.querySelectorAll(".btn-remove");
+        for (let btn of btns) {
+            btn.addEventListener("click", function (e) {
+                e.preventDefault();
+                const id = this.dataset.id;
+                axios.delete(` http://localhost:3000/project/${id}`).then(() => {
+                    const newProject = project.filter((project) => project.id !== +id);
+                    setproject(newProject);
+                })
+
+            })
+        }
+    });
     return ` <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <caption
                 class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
                 Our products
@@ -28,6 +40,7 @@ const adminproductPage = () => {
                     <th scope="col" class="px-6 py-3">
                         description
                     </th>
+                    <th>date</th>
                     <th>img </th>
                     <th scope="col" class="px-6 py-3">
                         <span class="sr-only">Edit</span>
@@ -45,13 +58,19 @@ const adminproductPage = () => {
                     <td class="px-6 py-4">
                       ${project.description}
                     </td>
-                    <td></td>
-                    <td class="px-6 py-4 text-right">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> ||
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">xóa</a>
+                     <td class="px-6 py-4">
+                      ${project.projectdate}
                     </td>
-                </tr>`
-    })}
+                   
+                    <td>
+                    <img src="${project.gallery}" class="w-[200px] p-2 ">
+                    </td>
+                    <td width="150">
+               
+                      <a class="bg-green-500 px-2 py-1 btn-remove rounded-md text-white hover:bg-green-600 deley-100" data-id="${project.id}">xóa</a> ||      
+                      <a class="bg-green-500 px-2 py-1 rounded-md text-white hover:bg-green-600 deley-100" href="/Admin/project/${project.id}/edit">Sửa</a>
+                     </td>
+                 </tr>` })}
 
             </tbody>
         </table>
